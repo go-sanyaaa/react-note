@@ -4,6 +4,9 @@ import {BrowserRouter} from "react-router-dom";
 import App from './App'
 import './index.css';
 import * as serviceWorker from './serviceWorker';
+import ApiService from './services/api.service'
+
+ApiService.init()
 
 ReactDOM.render(
     <BrowserRouter>

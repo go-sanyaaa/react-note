@@ -1,20 +1,26 @@
 import React from 'react'
-import { withRouter } from "react-router-dom";
+import { withRouter, useLocation } from "react-router-dom";
 import { Button, Grid, Header, Form, Message, Segment } from 'semantic-ui-react'
+import AuthService from "../services/auth.service";
+
+const Settings = () => {
+    let location = useLocation();
+    console.log(location)
+}
 
 class AuthView extends React.Component{
     constructor(props){
         super(props)
+
         this.state = {
           email: '',
           password: '',
           error: null
         }
 
-
         this.handleInputChange = this.handleInputChange.bind(this)
-        this.handleSignUp = this.handleSignUp.bind(this)
-        this.handleSignIn = this.handleSignIn.bind(this)
+        this.signUp = this.signUp.bind(this)
+        this.signIn = this.signIn.bind(this)
     }
 
     handleInputChange(event) {
@@ -25,60 +31,23 @@ class AuthView extends React.Component{
         });
     }
 
-    handleSignIn(){
-        this.signIn()
-    }
-
-    handleSignUp(){
-        this.signUp().then(() => this.signIn())
-    }
-
     signIn(){
-        const {email, password} = this.state
-
-        fetch('http://localhost:3000/api/users/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({email, password})
-        })
-            .then(resp => resp.json())
-            .then(resp => {
-                if(resp.id) {
-                    localStorage.setItem('token', resp.id)
-                    this.props.history.push('/')
-                    return resp
-                }
-                throw resp.error
-            })
-            .catch(error => {
+        AuthService.login(this.state.email, this.state.password)
+          .then(() => {
+            this.props.history.push('/')
+          })
+          .catch(error => {
               this.setState({error})
-              throw error.message
-            })
+          })
     }
 
     signUp(){
-        const {email, password} = this.state
-
-        return fetch('http://localhost:3000/api/users', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({email, password})
-        })
-            .then(resp => resp.json())
-            .then(resp => {
-              if(resp.id) {
-                return resp
-              }
-              throw resp.error
-            })
-            .catch(error => {
+        AuthService.createUser(this.state.email, this.state.password)
+          .then(this.signIn)
+          .catch(error => {
               this.setState({error})
-              throw error.message
-            })
+          })
+
     }
 
     render() {
@@ -109,8 +78,8 @@ class AuthView extends React.Component{
                             {errorMessage}
 
                             <Button.Group fluid size='large'>
-                                <Button color='green' onClick={this.handleSignIn}>Войти</Button>
-                                <Button onClick={this.handleSignUp}>Создать и войти</Button>
+                                <Button color='green' onClick={this.signIn}>Войти</Button>
+                                <Button onClick={this.signUp}>Создать и войти</Button>
                             </Button.Group>
                         </Segment>
                     </Form>

@@ -2,6 +2,7 @@ import React from 'react'
 import {Grid, Menu, MenuItem, Button} from 'semantic-ui-react'
 import { Link, withRouter } from 'react-router-dom'
 import logoImg from '../logo.png'
+import AuthService from '../services/auth.service'
 
 class IndexView extends React.Component{
   constructor(props) {
@@ -11,7 +12,7 @@ class IndexView extends React.Component{
   }
 
   handleSignOut(){
-    localStorage.removeItem('token')
+    AuthService.logout()
     this.props.history.push('/login')
   }
 
