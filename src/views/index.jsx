@@ -1,5 +1,5 @@
 import React from 'react'
-import {Grid, Menu, MenuItem, Button} from 'semantic-ui-react'
+import {Grid, Menu, MenuItem, Button, Segment, Card, Label} from 'semantic-ui-react'
 import { Link, withRouter } from 'react-router-dom'
 import logoImg from '../logo.png'
 import AuthService from '../services/auth.service'
@@ -7,11 +7,9 @@ import AuthService from '../services/auth.service'
 class IndexView extends React.Component{
   constructor(props) {
     super(props)
-
-    this.handleSignOut = this.handleSignOut.bind(this)
   }
 
-  handleSignOut(){
+  handleSignOut = () => {
     AuthService.logout()
     this.props.history.push('/login')
   }
@@ -40,6 +38,18 @@ class IndexView extends React.Component{
 
             </MenuItem>
           </Menu>
+          <Segment textAlign='left' raised>
+            <h1>Список задач:</h1>
+            <Card.Group>
+              <Card fluid>
+                <Card.Content>
+                  <Card.Header>Заголовок</Card.Header>
+                  <Card.Meta><Label size='tiny' color='teal'>Done</Label></Card.Meta>
+                  <Card.Description>Описание</Card.Description>
+                </Card.Content>
+              </Card>
+            </Card.Group>
+          </Segment>
         </Grid.Column>
       </Grid>
     )
