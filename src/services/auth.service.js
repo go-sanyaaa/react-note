@@ -24,7 +24,7 @@ class AuthService {
 
   createUser(email, password) {
     return ApiService.post('/users', {email, password})
-      .then(resp => {
+      .then(({data: resp}) => {
         if(resp.id) {
           return resp
         }
