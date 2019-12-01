@@ -5,6 +5,11 @@ import {API_URL} from "./config"
 class ApiService {
   init() {
     axios.defaults.baseURL = API_URL
+
+    const token = JwtService.getToken()
+    if(token){
+      this.setHeader()
+    }
   }
 
   setHeader() {
