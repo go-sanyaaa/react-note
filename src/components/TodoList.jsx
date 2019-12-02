@@ -1,16 +1,14 @@
 import React from "react";
 import {inject, observer} from "mobx-react";
 import {List, Segment} from "semantic-ui-react";
+import TodoItem from "./TodoItem";
 
-function TodoList({todoStore}) {
+function TodoList({todoStore, tasks}) {
   return (
     <Segment textAlign='left'>
       <List divided relaxed='very' size='huge'>
-        {todoStore.tasks.map(task => (
-          <List.Item  key={task.id}>
-            <List.Header>{task.title}</List.Header>
-            <List.Description>{task.body}</List.Description>
-          </List.Item>
+        {tasks.map(task => (
+          <TodoItem key={task.id} task={task}/>
         ))}
       </List>
     </Segment>
