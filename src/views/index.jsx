@@ -50,4 +50,4 @@ class IndexView extends React.Component{
   }
 }
 
-export default new inject('todoStore')(observer(withRouter(IndexView)))
+export default withRouter(new inject('todoStore')(observer(IndexView)))
