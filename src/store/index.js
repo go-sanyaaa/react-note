@@ -1,4 +1,4 @@
-import Tasks from "./tasks";
+import Tasks from "./todo";
 
 class Store {
   todoStore = new Tasks()
