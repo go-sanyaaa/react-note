@@ -1,12 +1,7 @@
 import React from 'react'
-import { withRouter, useLocation } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { Button, Grid, Header, Form, Message, Segment } from 'semantic-ui-react'
 import AuthService from "../services/auth.service";
-
-const Settings = () => {
-    let location = useLocation();
-    console.log(location)
-}
 
 class AuthView extends React.Component{
     constructor(props){

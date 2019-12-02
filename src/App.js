@@ -1,10 +1,9 @@
 import React from 'react';
-import {Switch, Route, Link, Redirect} from 'react-router-dom'
+import {Switch, Route, Redirect} from 'react-router-dom'
 import './App.css';
 import 'semantic-ui-css/semantic.min.css'
 import routes from "./routes";
 import AuthService from './services/auth.service'
-import JwtService from './services/jwt.service'
 
 function App() {
   const Routes = routes.map(route =>
