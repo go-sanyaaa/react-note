@@ -27,6 +27,10 @@ class ApiService {
   get(resource, params) {
     return axios.get(resource, params)
   }
+
+  delete(resource, params) {
+    return axios.delete(resource, params)
+  }
 }
 
 export default new ApiService()
