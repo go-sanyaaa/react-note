@@ -1,16 +1,25 @@
 import React from 'react'
-import {Grid, Menu, MenuItem, Button, Segment, Card, Label} from 'semantic-ui-react'
-import { Link, withRouter } from 'react-router-dom'
-import logoImg from '../logo.png'
-import AuthService from '../services/auth.service'
+import {Grid} from 'semantic-ui-react'
+import { withRouter } from 'react-router-dom'
 import {inject, observer} from "mobx-react";
 import TodoList from "../components/TodoList";
+import TodoMenu from "../components/TodoMenu";
+import TodoCreate from "../components/TodoCreate";
+import Header from "../components/Header"
 
+const menuItems = [
+  {title: 'Все', key: 'all'},
+  {title: 'Предстоящие', key: 'notDone'},
+  {title: 'Выполненные', key: 'done'},
+]
 
 class IndexView extends React.Component{
-  handleSignOut = () => {
-    AuthService.logout()
-    this.props.history.push('/login')
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      activeMenu: 'all'
+    }
   }
 
   componentDidMount() {
@@ -18,29 +27,16 @@ class IndexView extends React.Component{
   }
 
   render() {
-    const isLoggedIn = !!localStorage.getItem('token')
-
     return (
       <Grid textAlign='center' style={{ height: '100vh', margin: '60px 0px' }}>
         <Grid.Column style={{ width: 1000 }}>
-          <Menu>
-            <MenuItem>
-              <img alt='Логотип' src={logoImg}/>
-              <h4 style={{margin: '0 0 0 10px'}}>ToDo App</h4>
-            </MenuItem>
-
-            <MenuItem position='right'>
-              { isLoggedIn ? (
-                  <Button onClick={this.handleSignOut} color='red'>Выйти</Button>
-                ) : (
-                  <Link to={'/login'}>
-                    <Button onClick={this.handleSignOut} color='green'>Войти</Button>
-                  </Link>
-                )
-              }
-
-            </MenuItem>
-          </Menu>
+          <Header/>
+          <TodoCreate/>
+          <TodoMenu
+            items={menuItems}
+            active={this.state.activeMenu}
+            onClick={(activeMenu) => this.setState({activeMenu})}
+          />
           <TodoList/>
         </Grid.Column>
       </Grid>
