@@ -23,7 +23,7 @@ class Todo {
   createTask(task) {
     return TaskService.add(task)
       .then(newTask => {
-        this.tasks.push(newTask)
+        this.tasks = [...this.tasks,newTask]
         return newTask
       })
   }
@@ -40,7 +40,7 @@ class Todo {
     return TaskService.delete(id)
       .then(resp => {
         const taskIndex = this.tasks.findIndex(t => t.id === id)
-        this.tasks = this.tasks.splice(taskIndex-1,1)
+        this.tasks = [...this.tasks.slice(0,taskIndex), ...this.tasks.slice(taskIndex + 1)]
       })
   }
 }
