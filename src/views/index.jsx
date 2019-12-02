@@ -27,8 +27,14 @@ class IndexView extends React.Component{
   }
 
   render() {
+    const tasks = this.state.activeMenu === 'all' ? (
+        this.props.todoStore.tasks
+      ) : ( this.state.activeMenu === 'notDone' ) ? (
+        this.props.todoStore.unfinishedTasks
+      ) : ( this.props.todoStore.finishedTasks )
+
     return (
-      <Grid textAlign='center' style={{ height: '100vh', margin: '60px 0px' }}>
+      <Grid textAlign='center' style={{ height: '100vh', padding: '60px 0px' }}>
         <Grid.Column style={{ width: 1000 }}>
           <Header/>
           <TodoCreate/>
@@ -37,7 +43,7 @@ class IndexView extends React.Component{
             active={this.state.activeMenu}
             onClick={(activeMenu) => this.setState({activeMenu})}
           />
-          <TodoList/>
+          <TodoList tasks={tasks}/>
         </Grid.Column>
       </Grid>
     )
