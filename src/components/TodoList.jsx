@@ -1,9 +1,8 @@
 import React from "react";
-import {inject, observer} from "mobx-react";
 import {List, Segment} from "semantic-ui-react";
 import TodoItem from "./TodoItem";
 
-function TodoList({todoStore, tasks}) {
+function TodoList({tasks}) {
   return (
     <Segment textAlign='left'>
       <List divided relaxed='very' size='huge'>
@@ -15,4 +14,4 @@ function TodoList({todoStore, tasks}) {
   )
 }
 
-export default inject('todoStore')(observer(TodoList))
+export default TodoList
