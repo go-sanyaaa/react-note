@@ -10,6 +10,18 @@ class TaskService {
     return ApiService.post('/tasks', task)
       .then(({data}) => data)
   }
+
+  update(id,task) {
+    const where = window.encodeURI(`{"id": ${id}}`)
+
+    return ApiService.post(`/tasks/update?where=${where}`, task)
+      .then(({data}) => data)
+  }
+
+  delete(id) {
+    return ApiService.delete(`/tasks/${id}`)
+      .then(({data}) => data)
+  }
 }
 
 export default new TaskService()
