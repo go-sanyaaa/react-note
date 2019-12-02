@@ -3,26 +3,29 @@ import {Grid, Menu, MenuItem, Button, Segment, Card, Label} from 'semantic-ui-re
 import { Link, withRouter } from 'react-router-dom'
 import logoImg from '../logo.png'
 import AuthService from '../services/auth.service'
+import {inject, observer} from "mobx-react";
+import TodoList from "../components/TodoList";
+
 
 class IndexView extends React.Component{
-  constructor(props) {
-    super(props)
-  }
-
   handleSignOut = () => {
     AuthService.logout()
     this.props.history.push('/login')
+  }
+
+  componentDidMount() {
+    this.props.todoStore.fetchTasks()
   }
 
   render() {
     const isLoggedIn = !!localStorage.getItem('token')
 
     return (
-      <Grid textAlign='center' style={{ height: '100vh', margin: '0px' }}>
+      <Grid textAlign='center' style={{ height: '100vh', margin: '60px 0px' }}>
         <Grid.Column style={{ width: 1000 }}>
           <Menu>
             <MenuItem>
-              <img src={logoImg}/>
+              <img alt='Логотип' src={logoImg}/>
               <h4 style={{margin: '0 0 0 10px'}}>ToDo App</h4>
             </MenuItem>
 
@@ -38,24 +41,11 @@ class IndexView extends React.Component{
 
             </MenuItem>
           </Menu>
-          <Segment textAlign='left' raised>
-            <h1>Список задач:</h1>
-            <Card.Group>
-              <Card fluid>
-                <Card.Content>
-                  <Card.Header>Заголовок</Card.Header>
-                  <Card.Meta><Label size='tiny' color='teal'>Done</Label></Card.Meta>
-                  <Card.Description>Описание</Card.Description>
-                </Card.Content>
-              </Card>
-            </Card.Group>
-          </Segment>
+          <TodoList/>
         </Grid.Column>
       </Grid>
     )
   }
-
-
 }
 
-export default withRouter(IndexView)
+export default new inject('todoStore')(observer(withRouter(IndexView)))
