@@ -2,23 +2,16 @@ import React from 'react'
 import {inject, observer} from "mobx-react";
 import {Button, Icon, Label, List} from "semantic-ui-react";
 
-function TodoItem({task, todoStore}) {
-  function toggleTask(id) {
-    const task = Object.assign({}, todoStore.tasks.find(t => t.id === id))
-
-    todoStore.updateTask(id, {
-      done: !task.done
-    })
-  }
+function TodoItem({task, onEdit, onToggle, onDelete}) {
 
   return (
     <List.Item>
       <List.Content floated='right'>
         <Button.Group size='small'>
-          <Button onClick={() => toggleTask(task.id)} color={task.done ? 'red' : 'green'}>{!task.done ? 'Done' : 'Undone'}</Button>
-          <Button>Edit</Button>
+          <Button onClick={onToggle} color={task.done ? 'red' : 'green'}>{!task.done ? 'Done' : 'Undone'}</Button>
+          <Button onClick={onEdit}>Edit</Button>
         </Button.Group>
-        <Button onClick={() => todoStore.deleteTask(task.id)} negative icon className='todo-delete' size='small'>
+        <Button onClick={onDelete} negative icon className='todo-delete' size='small'>
           <Icon name='trash'/>
         </Button>
       </List.Content>
@@ -33,4 +26,4 @@ function TodoItem({task, todoStore}) {
   )
 }
 
-export default inject('todoStore')(observer(TodoItem))
+export default TodoItem

@@ -2,16 +2,17 @@ import {Button, Card, Form, Input, TextArea} from "semantic-ui-react";
 import React, { useState } from 'react'
 import {inject, observer} from "mobx-react";
 
-function TodoCreate({todoStore}) {
+function TodoCreate({onCreate}) {
   const [todoTitle, setTodoTitle] = useState('')
   const [todoContent, setTodoContent] = useState('')
 
   const creatTask = () => {
-    todoStore.createTask({
+    onCreate({
       title: todoTitle,
       body: todoContent
     })
       .then(resp => {
+        setTodoTitle('')
         setTodoContent('')
       })
   }

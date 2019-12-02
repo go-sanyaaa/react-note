@@ -28,11 +28,15 @@ class Todo {
       })
   }
 
-  updateTask(id, task) {
-    return TaskService.update(id, task)
+  updateTask(task) {
+    return TaskService.update(task.id, task)
       .then(resp => {
-        const taskIndex = this.tasks.findIndex(t => t.id === id)
-        this.tasks[taskIndex].done = !this.tasks[taskIndex].done
+        const taskIndex = this.tasks.findIndex(t => t.id === task.id)
+        const updatedTask = Object.assign(this.tasks[taskIndex], task)
+
+        this.tasks = [...this.tasks.slice(0,taskIndex), updatedTask , ...this.tasks.slice(taskIndex + 1)]
+
+        return resp
       })
   }
 
